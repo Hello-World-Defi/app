@@ -8,7 +8,7 @@ const options = {
     headers: [
         {
             name: 'Access-Control-Allow-Origin',
-            value: 'ws://127.0.0.1:8545'
+            value: 'http://127.0.0.1:8545'
         },
     ]
 };
