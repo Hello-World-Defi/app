@@ -18,5 +18,6 @@ module.exports = {
   output: {
     path: __dirname + "/dist",
     filename: 'bundle.js'
-  }
+  },
+  devServer: { public: '127.0.0.1', port: 8545 } 
 };

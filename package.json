@@ -14,7 +14,7 @@
     "coverage": "truffle run coverage",
     "build": "webpack --mode development",
     "build-prod": "webpack --mode production",
-    "app": "node ./dist/bundle.js"
+    "app": "webpack --mode development; node ./dist/bundle.js"
   },
   "repository": {
     "type": "git",
@@ -39,6 +39,7 @@
     "os-browserify": "^0.3.0",
     "prettier": "^2.2.1",
     "prettier-plugin-solidity": "^1.0.0-beta.10",
+    "readable-stream": "^3.6.0",
     "solhint": "^3.3.4",
     "solidity-coverage": "^0.7.16",
     "stream-browserify": "^3.0.0",
