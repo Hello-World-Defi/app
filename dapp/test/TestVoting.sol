@@ -1,11 +1,9 @@
-pragma solidity ^0.4.11;
+pragma solidity ^0.8.4;
 
 import "truffle/Assert.sol";
 import "../contracts/Voting.sol";
-import "../lib/github/Modular-Network/ethereum-libraries/StringUtilsLib/StringUtilsLib.sol";
 
 contract TestVoting {
-  using StringUtilsLib for *;
 
   function stringToBytes32(string memory source) public pure returns (bytes32 result) {
     bytes memory tempEmptyStringTest = bytes(source);
@@ -18,14 +16,12 @@ contract TestVoting {
     }
   }
   
-  bytes32 joeBytes;
-  bytes32 bobBytes;
+  bytes32 joeBytes = stringToBytes32("joe");
+  bytes32 bobBytes = stringToBytes32("bob");
   bytes32[] testNames;
   Voting voting;
 
   function beforeAll() public {
-    joeBytes = stringToBytes32("joe");
-    bobBytes = stringToBytes32("bob");
     testNames.push(joeBytes);
     testNames.push(bobBytes);
   }
@@ -35,12 +31,8 @@ contract TestVoting {
   }
 
   function testConstructorSetsInitialNames() public {
-
-    bytes32 nobody = voting.candidateList(1);
-    uint len = voting.getCandidateListLength();
-
-    Assert.equal(voting.candidateList(0).toSliceB32().toString(), "joe", "Initial candidate should be joe");
-    Assert.equal(voting.candidateList(1).toSliceB32().toString(), "bob", "Initial candidate should be bob");
+    Assert.equal(voting.candidateList(0), joeBytes, "Initial candidate should be joe");
+    Assert.equal(voting.candidateList(1), bobBytes, "Initial candidate should be bob");
     Assert.equal(voting.getCandidateListLength(), 2, "List has length 2");
   }
 

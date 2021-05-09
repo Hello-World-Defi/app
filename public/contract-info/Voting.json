@@ -4,7 +4,7 @@
     "networkLocation": {
       "host": "127.0.0.1",
       "port": 8545,
-      "network_id": "1620480568841"
+      "network_id": "1620604637119"
     },
     "contractName": "Voting",
     "abi": [
@@ -162,8 +162,8 @@
       "version": "0.8.4+commit.c7e474f2.Emscripten.clang"
     },
     "schemaVersion": "3.4.0",
-    "updatedAt": "2021-05-08T13:43:49.014Z",
-    "address": "0x12e30aCAA321190bFB7F641a874B30a337cc1613",
-    "network_id": "1620480568841"
+    "updatedAt": "2021-05-08T13:43:50.493Z",
+    "address": "0x18FCA45F1C4461F235CFA19c540fEb315C4f4ebD",
+    "network_id": "1620604637119"
   }
 }
