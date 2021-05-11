@@ -9,6 +9,7 @@
 # production
 /build
 /dapp/build
+/public/contract-info
 
 # misc
 .DS_Store
