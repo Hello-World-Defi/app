@@ -24,7 +24,7 @@ contract TestVoting {
   function beforeAll() public {
     testNames.push(joeBytes);
     testNames.push(bobBytes);
-  }
+  }t
 
   function beforeEach() public {
     voting = new Voting(testNames);
