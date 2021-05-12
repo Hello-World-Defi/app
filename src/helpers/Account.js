@@ -7,6 +7,11 @@ export default class Account {
     const getBalance = Promise.promisify(this.contract.getBalance.call, {
       context: this.contract.getBalance,
     });
+
+    const setAccount = Promise.promisify(this.contract.setAccount.call, {
+      context: this.contract.setAccount,
+    });
+
     const getTransaction = Promise.promisify(
       this.contract._eth.getTransaction,
       { context: this.contract._eth },
@@ -14,6 +19,7 @@ export default class Account {
 
     this.methods = {
       getBalance,
+      setAccount,
       getTransaction,
     };
   }
@@ -32,5 +38,30 @@ export default class Account {
       }
     }
     throw new Error('Timed out waiting for votes to be recorded in a block.');
+  }
+
+  async getBalance() {
+    const balance = await this.methods.getBalance();
+    console.log(balance);
+    return balance.toString();
+  }
+
+  async setAccount(account) {
+    try {
+      console.log(account);
+      const tx = await this.methods.setAccount(account, {
+        gas: 100000,
+        gasPrice: 3000000000,
+      });
+      console.log('tx', tx);
+      await this.waitForBlock(tx);
+    } catch (err) {
+      if (!err.message.match(/User denied transaction signature/)) {
+        throw err;
+      }
+    }
+    const bal = await this.getBalance();
+    console.log(bal);
+    return bal;
   }
 }
