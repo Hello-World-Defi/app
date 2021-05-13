@@ -27,7 +27,9 @@ export default class Account {
   async waitForBlock(tx) {
     let elapsed = 0;
     let delay = 1000;
+    console.log('starting blockchain request');
     while (elapsed < 10 * 60 * 1000) {
+      console.log('elapsed: ' + elapsed.toString() + ' for tx: ' + tx);
       let txObject = await this.methods.getTransaction(tx);
       if (txObject && txObject.blockNumber) {
         return txObject;
@@ -49,12 +51,10 @@ export default class Account {
   async setAccount(account) {
     try {
       console.log(account);
-      const tx = await this.methods.setAccount(account, {
+      await this.methods.setAccount(account, {
         gas: 100000,
         gasPrice: 3000000000,
       });
-      console.log('tx', tx);
-      await this.waitForBlock(tx);
     } catch (err) {
       if (!err.message.match(/User denied transaction signature/)) {
         throw err;

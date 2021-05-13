@@ -3,6 +3,7 @@ pragma solidity ^0.8.4;
 contract Account {
 
     address account;
+    event accountSet(string _account);
 
     function parseAddr(string memory _a) internal pure returns (address _parsedAddress) {
         // convert from string to address
@@ -33,13 +34,15 @@ contract Account {
         return address(iaddr);
     }
 
-    function setAccount(string calldata _account) public {
+    function setAccount(string calldata _account) public returns(uint256) {
+        emit accountSet(_account);
         account = parseAddr(_account);
+        return account.balance;
     }
 
-    function getBalance() public pure returns(string memory) {
-        //return parseAddr(account).balance;
-        // return account.balance;
-        return "test";
+    function getBalance() public view returns(address) {
+        // return parseAddr(account).balance;
+        return account;
+        // return "test";
     }
 }
