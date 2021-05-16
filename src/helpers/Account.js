@@ -1,15 +1,16 @@
 import Promise from 'bluebird';
+// import Web3 from 'web3';
 
 export default class Account {
   constructor(contract) {
     this.contract = contract;
 
-    const getBalance = Promise.promisify(this.contract.getBalance.call, {
-      context: this.contract.getBalance,
+    const getData = Promise.promisify(this.contract.getData.call, {
+      context: this.contract.getData,
     });
 
-    const setAccount = Promise.promisify(this.contract.setAccount.call, {
-      context: this.contract.setAccount,
+    const setData = Promise.promisify(this.contract.setData.call, {
+      context: this.contract.setData,
     });
 
     const getTransaction = Promise.promisify(
@@ -18,50 +19,19 @@ export default class Account {
     );
 
     this.methods = {
-      getBalance,
-      setAccount,
+      getData,
+      setData,
       getTransaction,
     };
   }
 
-  async waitForBlock(tx) {
-    let elapsed = 0;
-    let delay = 1000;
-    console.log('starting blockchain request');
-    while (elapsed < 10 * 60 * 1000) {
-      console.log('elapsed: ' + elapsed.toString() + ' for tx: ' + tx);
-      let txObject = await this.methods.getTransaction(tx);
-      if (txObject && txObject.blockNumber) {
-        return txObject;
-      } else {
-        await Promise.delay(delay);
-        elapsed = elapsed + delay;
-        delay = Math.floor(1.5 * delay);
-      }
-    }
-    throw new Error('Timed out waiting for votes to be recorded in a block.');
-  }
-
-  async getBalance() {
-    const balance = await this.methods.getBalance();
+  async getData() {
+    const balance = await this.methods.getData();
     console.log(balance);
     return balance.toString();
   }
 
-  async setAccount(account) {
-    try {
-      console.log(account);
-      await this.methods.setAccount(account, {
-        gas: 100000,
-        gasPrice: 3000000000,
-      });
-    } catch (err) {
-      if (!err.message.match(/User denied transaction signature/)) {
-        throw err;
-      }
-    }
-    const bal = await this.getBalance();
-    console.log(bal);
-    return bal;
+  async setData(data) {
+    await this.methods.setData(data);
   }
 }

@@ -20,35 +20,21 @@ class App extends React.Component<Props, State> {
       balance: '',
     };
 
-    this.getBal = this.getBal.bind(this);
-    this.setAcc = this.setAcc.bind(this);
+    this.getData = this.getData.bind(this);
+    this.setData = this.setData.bind(this);
   }
 
-  async componentDidMount(): any {
-    // load contracts on react initialization
-    const { contracts } = await fetchContracts(this.props.network, ['Account']);
-    console.log(contracts.Account);
-    const acc = new Account(contracts.Account);
-    await acc.setAccount('0x59A9799717481D9485059f406748D7193171c7E9');
-    // constconsole.log(acc.getBalance());
-    // const bal = await acc.getBalance();
-    this.setState({ Account: acc, balance: '' });
-  }
-
-  async getBal(): any {
-    const bal = await this.state.Account.getBalance();
+  async getData(): any {
+    const bal = await this.state.Account.getData();
     console.log(bal);
     this.setState({ balance: bal.toString() });
   }
 
-  async setAcc(): any {
+  async setData(): any {
     const { contracts } = await fetchContracts(this.props.network, ['Account']);
     const acc = new Account(contracts.Account);
-    const bal = await acc.setAccount(
-      '0x59A9799717481D9485059f406748D7193171c7E9',
-    );
-    console.log(bal);
-    this.setState({ Account: acc, balance: bal.toString() });
+    await acc.setData(123);
+    this.setState({ Account: acc, balance: 'set' });
   }
 
   render() {
@@ -56,8 +42,8 @@ class App extends React.Component<Props, State> {
       <Container>
         <h1>Hello World DeFi!</h1>
         <p>{this.state.balance}</p>
-        <button onClick={this.setAcc}>Set Account</button>
-        <button onClick={this.getBal}>Get Balance</button>
+        <button onClick={this.setData}>Set Account</button>
+        <button onClick={this.getData}>Get Balance</button>
       </Container>
     );
   }
