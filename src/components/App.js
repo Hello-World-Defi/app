@@ -17,36 +17,53 @@ class App extends React.Component<Props, State> {
   constructor(props: { network: string }) {
     super(props);
     this.state = {
-      Account: null,
-      balance: '',
+      HelloWorldContract: null,
+      status: 'Loading',
     };
 
     this.getData = this.getData.bind(this);
     this.setData = this.setData.bind(this);
-    this.loadContract = this.loadContract.bind(this);
   }
 
-  async loadContract(): any {
-    const { contracts } = await fetchContracts(this.props.network, ['Account']);
-    this.setState({ Account: contracts.Account, balance: 'loaded' });
+  async componentDidMount(): any {
+    const { contracts } = await fetchContracts(this.props.network, [
+      'HelloWorldContract',
+    ]);
+    this.setState({
+      HelloWorldContract: contracts.HelloWorldContract,
+      status: 'Contracts Fetched',
+    });
   }
 
   async getData(): any {
-    const bal = await this.state.Account.getData();
-    this.setState({ balance: bal.toString() });
+    const bal = await this.state.HelloWorldContract.getData();
+    this.getter.value = bal.toString();
   }
 
   async setData(): any {
-    await this.state.Account.setData(123);
+    await this.state.HelloWorldContract.setData(this.setter.value);
+    this.setter.value = '';
+    this.getter.value = '';
   }
 
   render() {
     return (
       <Container>
         <h1>Hello World DeFi!</h1>
-        <p>{this.state.balance}</p>
-        <button onClick={this.loadContract}>Load Contract</button>
+        <p>{this.state.status}</p>
+        <input
+          ref={el => {
+            this.setter = el;
+          }}
+        ></input>
         <button onClick={this.setData}>Set Data</button>
+        <br></br>
+        <input
+          ref={el => {
+            this.getter = el;
+          }}
+          readOnly
+        ></input>
         <button onClick={this.getData}>Get Data</button>
       </Container>
     );
